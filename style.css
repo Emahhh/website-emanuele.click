@@ -10,18 +10,17 @@ body{
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
-    background-color: #101214;
-    color: #7A7C80;
+    background-color: #d8f3dc;
+    color: #1b4332;
 
 }
 
 h2,.white{
-    color: #fff;
+    color: #2d6a4f;
 }
 
 a{
-    color: #7A7C80;
-    text-decoration: none;
+    color: #40916c;
 }
 /* section 1 */
 .section-1{
@@ -70,14 +69,14 @@ a{
 }
 /* animations / utilities */
 .section-2 a:hover{
-    font-size: 1.3rem;
-    color: #fff;
+    /* font-size: 1.3rem; */
+    color: #1b4332;
     cursor: pointer;
     transition: 0.2s;
 }
 
 .section-1 a:hover{
-    color: #fff;
+    color: #1b4332;
     cursor: pointer;
     transition: 0.3s;
 }

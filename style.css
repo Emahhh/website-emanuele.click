@@ -231,6 +231,7 @@ body {
   justify-content: space-between;
   margin-bottom: 8px;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .project-card-header h3 {
@@ -246,6 +247,7 @@ body {
   align-items: center;
   gap: 8px;
   flex-shrink: 0;
+  flex-wrap: wrap;
 }
 
 .project-link {
@@ -266,6 +268,35 @@ body {
   color: #1a1a1a;
   background: #efefef;
   transform: scale(1.08);
+}
+
+.project-link.domain {
+  width: auto;
+  padding: 0 12px;
+  border-radius: 15px;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #555;
+  background: #f4f4f5;
+  border: 1px solid #eaeaea;
+}
+
+.project-link.domain i {
+  font-size: 0.7rem;
+  color: #888;
+  transition: color 0.2s ease;
+}
+
+.project-link.domain:hover {
+  background: #ebebeb;
+  color: #1a1a1a;
+  border-color: #d4d4d4;
+  transform: translateY(-1px);
+}
+
+.project-link.domain:hover i {
+  color: #1a1a1a;
 }
 
 .project-link i {

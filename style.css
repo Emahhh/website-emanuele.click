@@ -99,6 +99,28 @@ body {
   text-transform: uppercase;
 }
 
+.profile-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 4px 10px;
+  background-color: #fef3c7; /* Warm amber/gold */
+  border: 1px solid #fde68a;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #b45309;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.profile-badge i {
+  font-size: 0.72rem;
+  color: #d97706;
+}
+
 /* ─── Navigation ─── */
 .navigation ul {
   list-style: none;
@@ -203,6 +225,19 @@ body {
   margin-bottom: 24px;
 }
 
+.projects-subheader {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #888;
+  margin: 32px 0 16px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.projects-subheader.second-subheader {
+  margin-top: 48px;
+}
+
 .projects-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -234,11 +269,38 @@ body {
   flex-wrap: wrap;
 }
 
+.project-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 .project-card-header h3 {
   font-size: 1.05rem;
   font-weight: 600;
   color: #1a1a1a;
   margin: 0;
+}
+
+.card-award-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  background-color: #fef3c7;
+  border: 1px solid #fde68a;
+  border-radius: 12px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #b45309;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.card-award-tag i {
+  font-size: 0.68rem;
+  color: #d97706;
 }
 
 /* ─── Project Link Icons ─── */
@@ -351,39 +413,146 @@ a:hover {
 
 /* ─── Contact Social Buttons ─── */
 .socials {
-  margin-top: 24px;
+  margin-top: 28px;
   display: flex;
-  gap: 12px;
+  gap: 14px;
   flex-wrap: wrap;
 }
 
 .social-btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
+  gap: 10px;
+  padding: 12px 24px;
   background-color: #fff;
-  border: 1.5px solid #e0e0e0;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #444;
+  border: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0 !important;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #334155;
   text-decoration: none;
-  transition: all 0.25s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
-  border-bottom: 1.5px solid #e0e0e0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
 }
 
 .social-btn i {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.social-btn:hover {
-  background-color: #1a1a1a;
-  border-color: #1a1a1a;
+/* Secondary Button Hover Effects */
+.social-btn:not(.primary):hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+}
+
+.social-btn:not(.primary):hover i {
+  transform: scale(1.15);
+}
+
+.social-btn.github:hover {
+  background-color: #1a1f24;
+  border-color: #1a1f24;
+  border-bottom-color: #1a1f24 !important;
   color: #fff;
+}
+
+.social-btn.linkedin:hover {
+  background-color: #0077b5;
+  border-color: #0077b5;
+  border-bottom-color: #0077b5 !important;
+  color: #fff;
+}
+
+.social-btn.x-twitter:hover {
+  background-color: #000000;
+  border-color: #000000;
+  border-bottom-color: #000000 !important;
+  color: #fff;
+}
+
+/* Primary CTA Button (Email) */
+.social-btn.primary {
+  background: linear-gradient(135deg, #1e1e1e 0%, #0f0f0f 100%);
+  border: 1px solid #1a1a1a;
+  border-bottom: 1px solid #1a1a1a !important;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  padding: 12px 28px;
+}
+
+.social-btn.primary i {
+  color: #ffffff;
+}
+
+.social-btn.primary:hover {
+  background: linear-gradient(135deg, #2d2d2d 0%, #151515 100%);
+  border-color: #2d2d2d;
+  border-bottom-color: #2d2d2d !important;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.social-btn.primary:hover i {
+  transform: translateX(3px) rotate(-15deg);
+}
+
+.social-btn:active {
+  transform: translateY(-1px) scale(0.98);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+/* ─── Footer ─── */
+.footer {
+  margin-top: 56px;
+  padding-top: 32px;
+  border-top: 1px solid #ebebeb;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.footer-separator {
+  color: #d0d0d0;
+  user-select: none;
+}
+
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #888;
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: none;
+  transition: all 0.25s ease;
+}
+
+.footer-link i {
+  font-size: 0.85rem;
+  transition: transform 0.25s ease;
+}
+
+.footer-link:hover {
+  color: #1a1a1a;
+}
+
+.footer-link:hover i {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.footer-link[href="#contact"]:hover i {
+  transform: scale(1.1) rotate(-10deg);
 }
 
 /* ─── Mobile ─── */
@@ -480,5 +649,18 @@ a:hover {
   .social-btn {
     padding: 10px 16px;
     font-size: 0.85rem;
+  }
+
+  .social-btn.primary {
+    padding: 10px 20px;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .footer-separator {
+    display: none;
   }
 }

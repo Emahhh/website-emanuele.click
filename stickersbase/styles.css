@@ -1255,3 +1255,30 @@ footer {
 .prose a{color:var(--blue)}
 .lang-label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#a1a1a6;margin:40px 0 0}
 .app-icon{border-radius:22%;box-shadow:0 10px 30px rgba(0,0,0,.12);margin-bottom:28px}
+
+/* StickersBase landing */
+.hero .app-icon{display:block;margin:0 auto 30px}
+.store-soon{cursor:default}
+.store-soon:hover{transform:none;background:var(--blue)}
+.screens{overflow-x:auto;scrollbar-width:none;padding:0 0 30px;scroll-snap-type:x mandatory}
+.screens::-webkit-scrollbar{display:none}
+.screens-track{display:flex;gap:18px;width:max-content;margin:0 auto;padding:0 32px}
+.screens img{width:236px;height:auto;border-radius:26px;box-shadow:0 18px 40px rgba(0,0,0,.10);scroll-snap-align:center;background:var(--surface)}
+.split{display:grid;grid-template-columns:1fr 1.2fr;gap:75px;border-top:1px solid var(--line)}
+.split-copy p{font-size:16px;line-height:1.65;color:#6e6e73;margin:0 0 16px;letter-spacing:-.2px}
+.split-copy a,.final-cta p a{color:var(--blue)}
+.feature-icon{font-size:19px}
+@media(max-width:800px){
+  .feature-grid{grid-template-columns:1fr}
+  .split,.faq{grid-template-columns:1fr;gap:22px}
+  .screens img{width:200px}
+}
+@media(max-width:650px){
+  .wrap{width:calc(100% - 32px)}
+  .screens-track{padding:0 16px}
+  h1{font-size:46px;letter-spacing:-2.4px}
+  h2{font-size:34px}
+  .lead{font-size:16px}
+  .footer-main{flex-direction:column}
+  .footer-links{flex-wrap:wrap;gap:14px}
+}

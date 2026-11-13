@@ -13,10 +13,10 @@
     <link rel="stylesheet" href="/stickersbase/styles.css">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="StickersBase">
-    <meta property="og:title" content="Any moment. A WhatsApp sticker. — StickersBase">
+    <meta property="og:title" content="Endless WhatsApp stickers. Or make your own. — StickersBase">
     <meta property="og:description" content="Paste an X link, trim the best moment, add it to WhatsApp in one tap. Free for iPhone, no account.">
     <meta property="og:url" content="https://emanuele.click/stickersbase/">
-    <meta property="og:image" content="https://emanuele.click/stickersbase/assets/screens/01-any-moment.jpg">
+    <meta property="og:image" content="https://emanuele.click/stickersbase/assets/screens/01-make-or-find.jpg">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@emanuele_click">
     <meta name="twitter:creator" content="@emanuele_click">
@@ -51,20 +51,23 @@
     <main id="main">
       <section class="hero wrap">
         <img class="app-icon" src="/stickersbase/assets/icon.png" width="92" height="92" alt="">
-        <h1>Any moment.<br><span>A WhatsApp sticker.</span></h1>
-        <p class="lead">Paste an X link or pick a video, trim the best second,<br class="desktop-break"> and add it to WhatsApp in one tap.</p>
+        <h1>Endless stickers.<br><span>Or make your own.</span></h1>
+        <p class="lead">Grab stickers made by the community, or turn any X video<br class="desktop-break"> or your own clips into one. Added to WhatsApp in a tap.</p>
         <span class="button primary store-soon" id="get">Coming soon to the App Store</span>
         <p class="cta-note">Free for iPhone. No account needed.</p>
       </section>
 
-      <section class="screens" aria-label="App screenshots">
+      <section class="screens" aria-label="App screenshots" tabindex="0">
         <div class="screens-track">
-          <img src="/stickersbase/assets/screens/01-any-moment.jpg" width="330" height="717" alt="A cat sticker sent in a WhatsApp chat. Any moment. A WhatsApp sticker." loading="eager">
-          <img src="/stickersbase/assets/screens/02-paste-x-link.jpg" width="330" height="717" alt="Paste an X link. Get a sticker." loading="lazy">
-          <img src="/stickersbase/assets/screens/03-trim-frame.jpg" width="330" height="717" alt="The editor: trim the clip and frame it. Trim it. Frame it. Stick it." loading="lazy">
-          <img src="/stickersbase/assets/screens/04-one-tap-whatsapp.jpg" width="330" height="717" alt="One tap. Into WhatsApp." loading="lazy">
-          <img src="/stickersbase/assets/screens/06-packs.jpg" width="330" height="717" alt="Make a whole pack. Up to 30 stickers." loading="lazy">
-          <img src="/stickersbase/assets/screens/08-no-account.jpg" width="330" height="717" alt="No account. No fuss." loading="lazy">
+          <img src="/stickersbase/assets/screens/01-make-or-find.jpg" width="330" height="717" alt="A WhatsApp group chat full of cat stickers. Endless stickers. Or make your own." loading="eager">
+          <img src="/stickersbase/assets/screens/02-paste-x-link.jpg" width="330" height="717" alt="Copy the link of an X video and paste it into StickersBase. Copied a video on X? Make it a sticker." loading="eager">
+          <img src="/stickersbase/assets/screens/03-your-photos.jpg" width="330" height="717" alt="Pick a video from your camera roll. Turn your own videos into stickers." loading="eager">
+          <img src="/stickersbase/assets/screens/04-community.jpg" width="330" height="717" alt="A grid of community stickers with save counts. Endless stickers, made by everyone." loading="lazy">
+          <img src="/stickersbase/assets/screens/05-search-save.jpg" width="330" height="717" alt="Searching the community for cat stickers. Find any vibe. Save it in one tap." loading="lazy">
+          <img src="/stickersbase/assets/screens/06-trim-frame.jpg" width="330" height="717" alt="The editor: trim the clip and frame it. Trim it. Frame it. Stick it." loading="lazy">
+          <img src="/stickersbase/assets/screens/07-one-tap-whatsapp.jpg" width="330" height="717" alt="One tap. Into WhatsApp." loading="lazy">
+          <img src="/stickersbase/assets/screens/08-packs.jpg" width="330" height="717" alt="Make a whole pack. Up to 30 stickers." loading="lazy">
+          <img src="/stickersbase/assets/screens/09-no-account.jpg" width="330" height="717" alt="No account. No fuss." loading="lazy">
         </div>
       </section>
 
@@ -152,5 +155,42 @@
       </div>
       <p class="disclaimer">Independent app. Not affiliated with WhatsApp, Meta or X. WhatsApp is a trademark of WhatsApp LLC.</p>
     </footer>
+    <script>
+      // Auto-scroll the screenshot strip as an endless loop. It pauses while the
+      // pointer is over it or it has focus, and stays a plain swipeable strip when
+      // the visitor prefers reduced motion.
+      (() => {
+        const strip = document.querySelector('.screens');
+        const track = strip && strip.querySelector('.screens-track');
+        if (!track || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        const originals = [...track.children];
+        originals.forEach(img => {
+          const copy = img.cloneNode(true);
+          copy.alt = ''; copy.setAttribute('aria-hidden', 'true'); copy.loading = 'lazy';
+          track.appendChild(copy);
+        });
+        strip.classList.add('auto');
+        let paused = false, last = 0, pos = 0;
+        const pause = v => () => { paused = v; };
+        strip.addEventListener('pointerenter', pause(true));
+        strip.addEventListener('pointerleave', pause(false));
+        strip.addEventListener('focusin', pause(true));
+        strip.addEventListener('focusout', pause(false));
+        strip.addEventListener('touchstart', pause(true), { passive: true });
+        strip.addEventListener('touchend', () => setTimeout(() => { pos = strip.scrollLeft; paused = false; }, 2500), { passive: true });
+        const step = t => {
+          const gap = last ? t - last : 0; last = t;
+          const dt = gap > 1000 ? 0 : gap; // skip the jump after a hidden tab
+          const half = track.scrollWidth / 2;
+          if (!paused && half > strip.clientWidth) {
+            pos += dt * 0.045;
+            if (pos >= half) pos -= half;
+            strip.scrollLeft = pos;
+          } else { pos = strip.scrollLeft % half; }
+          requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      })();
+    </script>
   </body>
 </html>

@@ -1282,3 +1282,8 @@ footer {
   .footer-main{flex-direction:column}
   .footer-links{flex-wrap:wrap;gap:14px}
 }
+/* Auto-scrolling strip: snap would fight the continuous scroll, and the strip
+   spans the full width so the loop never shows an edge. */
+.screens.auto{scroll-snap-type:none}
+.screens.auto .screens-track{margin:0}
+.screens:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}

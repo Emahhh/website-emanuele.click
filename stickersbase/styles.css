@@ -1287,3 +1287,6 @@ footer {
 .screens.auto{scroll-snap-type:none}
 .screens.auto .screens-track{margin:0}
 .screens:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
+.screens.auto{cursor:grab}
+.screens.dragging{cursor:grabbing;user-select:none}
+.screens.dragging img{pointer-events:none}

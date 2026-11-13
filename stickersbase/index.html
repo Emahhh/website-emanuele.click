@@ -156,37 +156,63 @@
       <p class="disclaimer">Independent app. Not affiliated with WhatsApp, Meta or X. WhatsApp is a trademark of WhatsApp LLC.</p>
     </footer>
     <script>
-      // Auto-scroll the screenshot strip as an endless loop. It pauses while the
-      // pointer is over it or it has focus, and stays a plain swipeable strip when
-      // the visitor prefers reduced motion.
+      // The screenshot strip scrolls on its own as an endless loop, but the visitor
+      // is always in control: swiping, dragging, the wheel/trackpad or the keyboard
+      // take over at once, and auto-scroll resumes a few seconds after they stop.
+      // With reduced motion it is a plain swipeable strip.
       (() => {
         const strip = document.querySelector('.screens');
         const track = strip && strip.querySelector('.screens-track');
         if (!track || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        const originals = [...track.children];
-        originals.forEach(img => {
+        [...track.children].forEach(img => {
           const copy = img.cloneNode(true);
           copy.alt = ''; copy.setAttribute('aria-hidden', 'true'); copy.loading = 'lazy';
           track.appendChild(copy);
         });
         strip.classList.add('auto');
-        let paused = false, last = 0, pos = 0;
-        const pause = v => () => { paused = v; };
-        strip.addEventListener('pointerenter', pause(true));
-        strip.addEventListener('pointerleave', pause(false));
-        strip.addEventListener('focusin', pause(true));
-        strip.addEventListener('focusout', pause(false));
-        strip.addEventListener('touchstart', pause(true), { passive: true });
-        strip.addEventListener('touchend', () => setTimeout(() => { pos = strip.scrollLeft; paused = false; }, 2500), { passive: true });
+
+        const SPEED = 0.045;      // px per ms
+        const RESUME_AFTER = 3000; // ms of no interaction
+        let pos = 0, last = 0, hovering = false, holdUntil = 0, ours = -1;
+        const half = () => track.scrollWidth / 2;
+        const hold = () => { holdUntil = performance.now() + RESUME_AFTER; };
+
+        // Manual scrolling wraps around too, so the loop has no ends either way.
+        strip.addEventListener('scroll', () => {
+          const x = strip.scrollLeft, h = half();
+          if (Math.abs(x - ours) > 1) hold();          // not a scroll we made
+          if (x > h) strip.scrollLeft = x - h;
+          else if (x < 1 && performance.now() < holdUntil) strip.scrollLeft = x + h;
+          pos = strip.scrollLeft;
+        }, { passive: true });
+        ['wheel', 'touchstart', 'keydown', 'focusin'].forEach(e => strip.addEventListener(e, hold, { passive: true }));
+        strip.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') hovering = true; });
+        strip.addEventListener('pointerleave', () => { hovering = false; hold(); });
+
+        // Click-and-drag with a mouse (touch already swipes natively).
+        let drag = null;
+        strip.addEventListener('pointerdown', e => {
+          if (e.pointerType !== 'mouse' || e.button !== 0) return;
+          drag = { x: e.clientX, left: strip.scrollLeft, moved: false };
+          strip.classList.add('dragging');
+        });
+        addEventListener('pointermove', e => {
+          if (!drag) return;
+          const dx = e.clientX - drag.x;
+          if (Math.abs(dx) > 3) drag.moved = true;
+          strip.scrollLeft = drag.left - dx; hold();
+        });
+        addEventListener('pointerup', () => { if (drag) { drag = null; strip.classList.remove('dragging'); hold(); } });
+        strip.addEventListener('dragstart', e => e.preventDefault());
+
         const step = t => {
           const gap = last ? t - last : 0; last = t;
           const dt = gap > 1000 ? 0 : gap; // skip the jump after a hidden tab
-          const half = track.scrollWidth / 2;
-          if (!paused && half > strip.clientWidth) {
-            pos += dt * 0.045;
-            if (pos >= half) pos -= half;
-            strip.scrollLeft = pos;
-          } else { pos = strip.scrollLeft % half; }
+          const h = half();
+          if (!hovering && !drag && t > holdUntil && h > strip.clientWidth) {
+            pos = (pos + dt * SPEED) % h;
+            strip.scrollLeft = pos; ours = strip.scrollLeft;
+          }
           requestAnimationFrame(step);
         };
         requestAnimationFrame(step);

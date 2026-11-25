@@ -1241,6 +1241,8 @@ footer {
 .button .chrome-icon{width:20px;height:20px}
 .button.small .ui-icon{width:13px;height:13px}
 .feature-icon .ui-icon{width:20px;height:20px}
+.store-badge{display:inline-block;margin:24px 0 8px}
+.store-badge img{display:block;height:40px;width:auto}
 .footer-links .ui-icon,.footer-main>span .ui-icon{width:11px;height:11px}
 .support-topics .ui-icon{width:12px;height:12px}
 .preview-play .ui-icon{width:29px;height:29px}
@@ -1258,8 +1260,6 @@ footer {
 
 /* StickersBase landing */
 .hero .app-icon{display:block;margin:0 auto 30px}
-.store-soon{cursor:default}
-.store-soon:hover{transform:none;background:var(--blue)}
 .screens{overflow-x:auto;scrollbar-width:none;padding:0 0 30px;scroll-snap-type:x mandatory}
 .screens::-webkit-scrollbar{display:none}
 .screens-track{display:flex;gap:18px;width:max-content;margin:0 auto;padding:0 32px}
